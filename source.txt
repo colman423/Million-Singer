@@ -1,2 +1,4 @@
 plus: Icon made by https://smashicons.com/ from www.flaticon.com 
-floppy-disk: Icon made by https://www.freepik.com/ from www.flaticon.com 
+floppy-disk: Freepik https://www.freepik.com/
+edit: Gregor Cresnar
+right-arrow: Appzgear http://appzgear.com/
