@@ -2,3 +2,5 @@ plus: Icon made by https://smashicons.com/ from www.flaticon.com
 floppy-disk: Freepik https://www.freepik.com/
 edit: Gregor Cresnar
 right-arrow: Appzgear http://appzgear.com/
+confirm: https://www.flaticon.com/authors/roundicons
+close-button: https://www.flaticon.com/authors/google

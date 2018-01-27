@@ -30,3 +30,8 @@ obj/
 ehthumbs.db
 Thumbs.db
 .vs/
+
+# ========= #
+# Game Data #
+# ========= #
+Assets/Data
