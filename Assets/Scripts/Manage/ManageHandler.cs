@@ -2,19 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 public class ManageHandler : MonoBehaviour {
-    private EventSystem eventSystem;
+    public GameObject rootTab;
+    public GameObject preferenceTab;
+    public GameObject categoryTab;
+    public GameObject songTab;
+    public GameObject lyricsTab;
     public GameObject lyricsContainer;
     public GameObject lyricsRawPrefab;
     public Scrollbar scrollbarVertical;
 
-    // Use this for initialization
-    void Start()
-    {
-        eventSystem = EventSystem.current;
-    }
 
     public void createLyricsRaw()
     {
@@ -27,59 +25,52 @@ public class ManageHandler : MonoBehaviour {
         scrollbarVertical.value = 0; //TODO
     }
 
-
-    // Update is called once per frame
-    void Update()
+    public void changeToCategoryTab()
     {
-        // When TAB is pressed, we should select the next selectable UI element
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            gotoNextSelectable();
-        }
+        rootTab.SetActive(false);
+        preferenceTab.SetActive(false);
+        categoryTab.SetActive(true);
+        songTab.SetActive(false);
+        lyricsTab.SetActive(false);
     }
-    private void gotoNextSelectable() { 
-        Selectable next = null;
-        Selectable current = null;
+    public void changeToSongTab(string ID)
+    {
+        rootTab.SetActive(false);
+        preferenceTab.SetActive(false);
+        categoryTab.SetActive(false);
+        songTab.SetActive(true);
+        lyricsTab.SetActive(false);
+    }
+    public void changeToLyricsTab(string ID)
+    {
+        rootTab.SetActive(false);
+        preferenceTab.SetActive(false);
+        categoryTab.SetActive(false);
+        songTab.SetActive(false);
+        lyricsTab.SetActive(true);
+    }
+    public void changeToPreferenceTab()
+    {
+        rootTab.SetActive(false);
+        preferenceTab.SetActive(true);
+        categoryTab.SetActive(false);
+        songTab.SetActive(false);
+        lyricsTab.SetActive(false);
+    }
+    public void changeToRootTab()
+    {
+        rootTab.SetActive(true);
+        preferenceTab.SetActive(false);
+        categoryTab.SetActive(false);
+        songTab.SetActive(false);
+        lyricsTab.SetActive(false);
 
-        // Figure out if we have a valid current selected gameobject
-        if (eventSystem.currentSelectedGameObject != null)
-        {
-            // Unity doesn't seem to "deselect" an object that is made inactive
-            if (eventSystem.currentSelectedGameObject.activeInHierarchy)
-            {
-                current = eventSystem.currentSelectedGameObject.GetComponent<Selectable>();
-            }
-        }
-
-        if (current != null)
-        {
-            // When SHIFT is held along with tab, go backwards instead of forwards
-            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
-            {
-                next = current.FindSelectableOnLeft();
-                if (next == null)
-                {
-                    next = current.FindSelectableOnUp();
-                }
-            }
-            else
-            {
-                next = current.FindSelectableOnRight();
-                if (next == null)
-                {
-                    next = current.FindSelectableOnDown();
-                }
-            }
-        }
-        if( next==null )
-        {
-            // If there is no current selected gameobject, select the first one
-            if (Selectable.allSelectables.Count > 0)
-            {
-                next = Selectable.allSelectables[Selectable.allSelectables.Count-1];
-            }
-        }
-        next.Select();
+    }
+    public void changeToMenu(string sceneName)
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
     }
 
+
+    
 }
