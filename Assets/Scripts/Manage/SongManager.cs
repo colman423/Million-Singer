@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CategoryManager : MonoBehaviour
-{
+public class SongManager : MonoBehaviour {
+
     public Text nameTag;
     public InputField nameInput;
     public GameObject btnRename;
     public GameObject btnRenameConfirm;
     public GameObject btnRenameCancel;
     public GameObject btnGointo;
-    public ReadHandler readHandler;
+    public GameObject btnMove;
+    public GameObject btnRemove;
+    public GameObject normalGroup;
+    public GameObject editGroup;
 
     public string getName()
     {
@@ -21,7 +24,7 @@ public class CategoryManager : MonoBehaviour
     {
         nameTag.text = str;
     }
-    public void editCategoryName()
+    public void editSongName()
     {
         nameInput.text = getName();
         toggleEditMode(true);
@@ -32,7 +35,7 @@ public class CategoryManager : MonoBehaviour
         Debug.Log("confirm name change!");
         setName(nameInput.text);
         toggleEditMode(false);
-        WriteHandler.writeCategory(getID(), getActive(), getName());
+        WriteHandler.writeSong(); //TODO
     }
     public void cancelNameChange()
     {
@@ -43,10 +46,8 @@ public class CategoryManager : MonoBehaviour
         nameInput.gameObject.SetActive(isEdit);
         nameTag.gameObject.SetActive(!isEdit);
 
-        btnRename.SetActive(!isEdit);
-        btnGointo.SetActive(!isEdit);
-        btnRenameConfirm.SetActive(isEdit);
-        btnRenameCancel.SetActive(isEdit);
+        normalGroup.SetActive(!isEdit);
+        editGroup.SetActive(isEdit);
     }
     public string getID()
     {
@@ -66,9 +67,11 @@ public class CategoryManager : MonoBehaviour
         List<GameObject> objList = new List<GameObject>();
         objList.Add(gameObject);
         objList.Add(btnRename);
-        objList.Add(btnGointo);
         objList.Add(btnRenameConfirm);
         objList.Add(btnRenameCancel);
+        objList.Add(btnGointo);
+        objList.Add(btnMove);
+        objList.Add(btnRemove);
         foreach (GameObject obj in objList)
         {
             float h, s, v;
@@ -77,9 +80,5 @@ public class CategoryManager : MonoBehaviour
             obj.GetComponent<Image>().color = Color.HSVToRGB(h, s, v);
         }
         //TODO
-    }
-    public void goInto()
-    {
-        readHandler.readSongs(this.getID());
     }
 }

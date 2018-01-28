@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class ManageHandler : MonoBehaviour {
     public GameObject rootTab;
-    public GameObject preferenceTab;
     public GameObject categoryTab;
     public GameObject songTab;
     public GameObject lyricsTab;
@@ -28,47 +27,33 @@ public class ManageHandler : MonoBehaviour {
     public void changeToCategoryTab()
     {
         rootTab.SetActive(false);
-        preferenceTab.SetActive(false);
         categoryTab.SetActive(true);
         songTab.SetActive(false);
         lyricsTab.SetActive(false);
     }
-    public void changeToSongTab(string ID)
+    public void changeToSongTab()
     {
         rootTab.SetActive(false);
-        preferenceTab.SetActive(false);
         categoryTab.SetActive(false);
         songTab.SetActive(true);
         lyricsTab.SetActive(false);
-
-        gameObject.GetComponent<ReadHandler>().readSongs(ID);
     }
-    public void changeToLyricsTab(string ID)
+    public void changeToLyricsTab()
     {
         rootTab.SetActive(false);
-        preferenceTab.SetActive(false);
         categoryTab.SetActive(false);
         songTab.SetActive(false);
         lyricsTab.SetActive(true);
     }
-    public void changeToPreferenceTab()
-    {
-        rootTab.SetActive(false);
-        preferenceTab.SetActive(true);
-        categoryTab.SetActive(false);
-        songTab.SetActive(false);
-        lyricsTab.SetActive(false);
-    }
     public void changeToRootTab()
     {
         rootTab.SetActive(true);
-        preferenceTab.SetActive(false);
         categoryTab.SetActive(false);
         songTab.SetActive(false);
         lyricsTab.SetActive(false);
 
     }
-    public void changeToMenu(string sceneName)
+    public void changeScene(string sceneName)
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
     }

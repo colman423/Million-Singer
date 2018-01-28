@@ -17,7 +17,6 @@ public class ReadHandler : MonoBehaviour {
     }
     public void readCategories()
     {
-        categoryContainer.GetComponent<Text>().text = Application.dataPath;
         try
         {
             List<XElement> cateList = XDocument.Load(Application.dataPath + "/Data/category.xml").Element("root").Elements("category").ToList();
@@ -43,8 +42,31 @@ public class ReadHandler : MonoBehaviour {
             WriteHandler.writeDefault();
         }
     }
-    public void readSongs(string ID)
+    public void readSongs(string cateID)
     {
+        gameObject.GetComponent<ManageHandler>().changeToSongTab();
+        try
+        {
+            List<XElement> songList = XDocument.Load(Application.dataPath + "/Data/"+cateID+".xml").Element("root").Elements("song").ToList();
+            for (int i = 0; i < 9; i++)
+            {
+                XElement xEle = songList[i];
+                GameObject gObj = songContainer.transform.GetChild(i).gameObject;
+                Debug.Log(gObj.name);
+                Debug.Log(xEle.ToString());
+                
+                string name = xEle.Value.Trim();
+                bool enabled = bool.Parse(xEle.Attribute("enabled").Value.Trim());
+                
+                gObj.GetComponent<SongManager>().setName(name);
+                gObj.SetActive(enabled);
+            }
+        }
+        catch (System.Exception e)
+        {
+            Debug.Log(e.ToString());
+            WriteHandler.writeDefault();
+        }
 
     }
 }

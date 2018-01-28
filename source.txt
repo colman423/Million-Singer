@@ -4,3 +4,5 @@ edit: Gregor Cresnar
 right-arrow: Appzgear http://appzgear.com/
 confirm: https://www.flaticon.com/authors/roundicons
 close-button: https://www.flaticon.com/authors/google
+exchange-arrows: https://www.flaticon.com/authors/dave-gandy
+rubbish-bin: https://www.flaticon.com/authors/icon-works

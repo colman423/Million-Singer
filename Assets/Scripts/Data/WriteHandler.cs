@@ -34,7 +34,10 @@ public class WriteHandler
             WriteHandler.writeDefault();
         }
     }
+    public static void writeSong()
+    {
 
+    }
 
     public static void writeDefault()
     {
