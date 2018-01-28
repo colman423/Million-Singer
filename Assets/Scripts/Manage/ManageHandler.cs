@@ -40,6 +40,8 @@ public class ManageHandler : MonoBehaviour {
         categoryTab.SetActive(false);
         songTab.SetActive(true);
         lyricsTab.SetActive(false);
+
+        gameObject.GetComponent<ReadHandler>().readSongs(ID);
     }
     public void changeToLyricsTab(string ID)
     {

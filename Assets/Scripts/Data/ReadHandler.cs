@@ -13,9 +13,9 @@ public class ReadHandler : MonoBehaviour {
 
     private void Start()
     {
-        readCategory();
+        readCategories();
     }
-    public void readCategory()
+    public void readCategories()
     {
         categoryContainer.GetComponent<Text>().text = Application.dataPath;
         try
@@ -32,8 +32,8 @@ public class ReadHandler : MonoBehaviour {
                 string name = xEle.Value.Trim();
                 bool enabled = bool.Parse(xEle.Attribute("enabled").Value.Trim());
 
-                gObj.name = ID;
-                gObj.GetComponent<CategoryManager>().setCategoryName(name);
+                gObj.GetComponent<CategoryManager>().setID(ID);
+                gObj.GetComponent<CategoryManager>().setName(name);
                 gObj.SetActive(enabled);
             }
         }
@@ -42,5 +42,9 @@ public class ReadHandler : MonoBehaviour {
             Debug.Log(e.ToString());
             WriteHandler.writeDefault();
         }
+    }
+    public void readSongs(string ID)
+    {
+
     }
 }
