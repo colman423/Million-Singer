@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -57,6 +58,33 @@ public static class ReadHandler {
             WriteHandler.writeDefault();
         }
         return songList;
+    }
+    public static List<Lyrics> readLyrics(string songName)
+    {
+        List<Lyrics> lyricsList = new List<Lyrics>();
+        try
+        {
+            IEnumerable<XElement> xEleList = XDocument.Load(Application.dataPath + "/Data/Lyrics" + songName + ".xml").Root.Elements("lyrics");
+            foreach (XElement xEle in xEleList)
+            {
+                int start = toTime(xEle.Attribute("start").Value.Trim());
+                int end = toTime(xEle.Attribute("end").Value.Trim());
+                string sentence = xEle.Value;
+                XAttribute xVoice = xEle.Attribute("voice");
+                int voice = (xVoice != null) ? Int16.Parse(xVoice.Value.Trim()) : VOICE.NORMAL;
+                lyricsList.Add(new Lyrics(start, end, sentence, voice));
+            }
+        }
+        catch (System.Exception e)
+        {
+            Debug.Log(e.ToString());
+            WriteHandler.writeDefault();
+        }
+        return lyricsList;
 
+    }
+    private static int toTime(string str)
+    {
+        return 0;
     }
 }

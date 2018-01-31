@@ -24,7 +24,7 @@ public class ManageHandler : MonoBehaviour {
     public void createLyricsRaw()
     {
         GameObject raw = Instantiate(lyricsRawPrefab);
-        raw.transform.parent = lyricsContainer.transform;
+        raw.transform.SetParent(lyricsContainer.transform);
 
         GameObject objMinute = raw.transform.Find("Time").Find("Start Time").Find("min").gameObject;
         objMinute.GetComponent<Selectable>().Select();
@@ -79,7 +79,19 @@ public class ManageHandler : MonoBehaviour {
             songList[i] = new Song(songMng.getName(), songMng.getFileName(), songMng.getActive());
         }
         WriteHandler.writeSongs(songContainer.name, songList);
+    }
+    public void readLyrics(string songName)
+    {
+        changeToLyricsTab();
+        lyricsContainer.name = songName;
+        List<Lyrics> lyricsList = ReadHandler.readLyrics(songName);
+        foreach( Lyrics lyr in lyricsList)
+        {
+            lyr.print();
+        }
+        //put in container
 
+        if (lyricsList.Count == 0) createLyricsRaw();
     }
 
     public void changeToCategoryTab()

@@ -54,6 +54,36 @@ public static class WriteHandler
             WriteHandler.writeDefault();
         }
     }
+    public static void writeLyrics(string songName, List<Lyrics> lyricsList)
+    {
+        Debug.Log("writing lyrics...");
+        try
+        {
+            XDocument doc = new XDocument(new XElement("root"));
+            XElement root = doc.Root;
+            root.RemoveAll();
+            foreach (Lyrics lyrics in lyricsList)
+            {
+                int start = lyrics.start;
+                int end = lyrics.end;
+                string sentence = lyrics.sentence;
+                int voice = lyrics.voice;
+                XElement xEle = new XElement("lyrics", sentence);
+                xEle.Add(new XAttribute("start", start));
+                xEle.Add(new XAttribute("end", end));
+                xEle.Add(new XAttribute("voice", voice));
+
+                root.Add(xEle);
+            }
+            doc.Save(Application.dataPath + "/Data/Lyrics" + songName + ".xml");
+        }
+        catch (System.Exception e)
+        {
+            Debug.Log(e.ToString());
+            WriteHandler.writeDefault();
+        }
+
+    }
 
     public static void writeDefault()
     {

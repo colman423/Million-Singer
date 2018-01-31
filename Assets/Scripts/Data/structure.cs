@@ -13,10 +13,6 @@ public struct Cate
         this.name = name;
         this.enabled = enabled;
     }
-    public void print()
-    {
-        Debug.Log(ID + name + enabled);
-    }
 }
 public struct Song
 {
@@ -28,4 +24,27 @@ public struct Song
         this.file = file;
         this.enabled = enabled;
     }
+}
+public struct Lyrics
+{
+    public int start, end, voice;
+    public string sentence;
+    public Lyrics(int start, int end, string sentence, int voice)
+    {
+        this.start = start;
+        this.end = end;
+        this.sentence = sentence;
+        this.voice = voice;
+    }
+    public void print()
+    {
+        Debug.Log(start + " " + end + " " + voice + " " + sentence);
+    }
+
+}
+public struct VOICE
+{
+    public static int NORMAL = 0;
+    public static int MALE = 1;
+    public static int FEMALE = 2;
 }

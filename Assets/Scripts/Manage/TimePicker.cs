@@ -21,4 +21,9 @@ public class TimePicker : MonoBehaviour
     {
         return iMin.text + ":" + iSec.text + "." + iMsec.text;
     }
+    public void setTime(string input) {
+        iMin.text = input.Substring(0, 2);
+        iSec.text = input.Substring(3, 2);
+        iMsec.text = input.Substring(6, 2);
+    }
 }

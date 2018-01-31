@@ -77,6 +77,10 @@ public class SongManager : MonoBehaviour {
             writeSongs();
         }
     }
+    public void goInto()
+    {
+        readLyrics();
+    }
 
 
     private void toggleEditMode(bool isEdit)
@@ -93,6 +97,6 @@ public class SongManager : MonoBehaviour {
     }
     private void readLyrics()
     {
-
+        mngHdlr.readLyrics(getName());
     }
 }
