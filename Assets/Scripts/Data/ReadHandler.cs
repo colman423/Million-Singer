@@ -6,34 +6,23 @@ using System.Xml.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ReadHandler : MonoBehaviour {
+public static class ReadHandler {
 
-    public GameObject categoryContainer;
-    public GameObject songContainer;
-
-    private void Start()
+    public static Cate[] readCategories()
     {
-        readCategories();
-    }
-    public void readCategories()
-    {
+        Cate[] cateList = new Cate[9];
         try
         {
-            List<XElement> cateList = XDocument.Load(Application.dataPath + "/Data/category.xml").Element("root").Elements("category").ToList();
+            List<XElement> xEleList = XDocument.Load(Application.dataPath + "/Data/category.xml").Root.Elements("category").ToList();
             for( int i=0; i<9; i++ )
             {
-                XElement xEle = cateList[i];
-                GameObject gObj = categoryContainer.transform.GetChild(i).gameObject;
-                Debug.Log(gObj.name);
-                Debug.Log(xEle.ToString());
+                XElement xEle = xEleList[i];
 
                 string ID = xEle.Attribute("id").Value.Trim();
                 string name = xEle.Value.Trim();
                 bool enabled = bool.Parse(xEle.Attribute("enabled").Value.Trim());
 
-                gObj.GetComponent<CategoryManager>().setID(ID);
-                gObj.GetComponent<CategoryManager>().setName(name);
-                gObj.SetActive(enabled);
+                cateList[i] = new Cate(ID, name, enabled);
             }
         }
         catch (System.Exception e)
@@ -41,25 +30,25 @@ public class ReadHandler : MonoBehaviour {
             Debug.Log(e.ToString());
             WriteHandler.writeDefault();
         }
+        return cateList;
     }
-    public void readSongs(string cateID)
+    public static Song[] readSongs(string cateID)
     {
-        gameObject.GetComponent<ManageHandler>().changeToSongTab();
+        Song[] songList = new Song[9];
+        //gameObject.GetComponent<ManageHandler>().changeToSongTab();
+        //songContainer.name = cateID;
         try
         {
-            List<XElement> songList = XDocument.Load(Application.dataPath + "/Data/"+cateID+".xml").Element("root").Elements("song").ToList();
+            List<XElement> xEleList = XDocument.Load(Application.dataPath + "/Data/"+cateID+".xml").Root.Elements("song").ToList();
             for (int i = 0; i < 9; i++)
             {
-                XElement xEle = songList[i];
-                GameObject gObj = songContainer.transform.GetChild(i).gameObject;
-                Debug.Log(gObj.name);
-                Debug.Log(xEle.ToString());
+                XElement xEle = xEleList[i];
                 
                 string name = xEle.Value.Trim();
+                string file = xEle.Attribute("file").Value.Trim();
                 bool enabled = bool.Parse(xEle.Attribute("enabled").Value.Trim());
-                
-                gObj.GetComponent<SongManager>().setName(name);
-                gObj.SetActive(enabled);
+
+                songList[i] = new Song(name, file, enabled);
             }
         }
         catch (System.Exception e)
@@ -67,6 +56,7 @@ public class ReadHandler : MonoBehaviour {
             Debug.Log(e.ToString());
             WriteHandler.writeDefault();
         }
+        return songList;
 
     }
 }

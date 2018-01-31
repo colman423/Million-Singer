@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,14 +8,14 @@ public class SongManager : MonoBehaviour {
 
     public Text nameTag;
     public InputField nameInput;
-    public GameObject btnRename;
-    public GameObject btnRenameConfirm;
-    public GameObject btnRenameCancel;
-    public GameObject btnGointo;
-    public GameObject btnMove;
-    public GameObject btnRemove;
     public GameObject normalGroup;
     public GameObject editGroup;
+    public Toggle toggle;
+    public ManageHandler mngHdlr;
+    
+    string fileName;
+    bool isFileNameEditing = false;
+    bool toggleIsSet = false;
 
     public string getName()
     {
@@ -24,24 +25,61 @@ public class SongManager : MonoBehaviour {
     {
         nameTag.text = str;
     }
-    public void editSongName()
+    public void editName()
     {
+        isFileNameEditing = false;
         nameInput.text = getName();
+        toggleEditMode(true);
+        nameInput.Select();
+    }
+    public string getFileName()
+    {
+        return fileName;
+    }
+    public void setFileName(string str)
+    {
+        fileName = str;
+    }
+    public void editFileName()
+    {
+        isFileNameEditing = true;
+        nameInput.text = getFileName();
         toggleEditMode(true);
         nameInput.Select();
     }
     public void confirmNameChange()
     {
         Debug.Log("confirm name change!");
-        setName(nameInput.text);
+        if( isFileNameEditing ) setFileName(nameInput.text);
+        else setName(nameInput.text);
         toggleEditMode(false);
-        WriteHandler.writeSong(); //TODO
+        writeSongs();
     }
     public void cancelNameChange()
     {
         toggleEditMode(false);
     }
-    void toggleEditMode(bool isEdit)
+    public bool getActive()
+    {
+        return toggle.isOn;
+    }
+    public void setToggle(bool isActive)
+    {
+        toggleIsSet = false;
+        toggle.isOn = isActive;
+        toggleIsSet = true;
+    }
+    public void setActive()
+    {
+        if (toggleIsSet)
+        {
+            Debug.Log("active change!");
+            writeSongs();
+        }
+    }
+
+
+    private void toggleEditMode(bool isEdit)
     {
         nameInput.gameObject.SetActive(isEdit);
         nameTag.gameObject.SetActive(!isEdit);
@@ -49,36 +87,12 @@ public class SongManager : MonoBehaviour {
         normalGroup.SetActive(!isEdit);
         editGroup.SetActive(isEdit);
     }
-    public string getID()
+    private void writeSongs()
     {
-        return gameObject.name;
+        mngHdlr.writeSongs();
     }
-    public void setID(string ID)
+    private void readLyrics()
     {
-        gameObject.name = ID;
-    }
-    public bool getActive()
-    {
-        return gameObject.activeSelf;
-        //TODO
-    }
-    public void setActive(bool isActive)
-    {
-        List<GameObject> objList = new List<GameObject>();
-        objList.Add(gameObject);
-        objList.Add(btnRename);
-        objList.Add(btnRenameConfirm);
-        objList.Add(btnRenameCancel);
-        objList.Add(btnGointo);
-        objList.Add(btnMove);
-        objList.Add(btnRemove);
-        foreach (GameObject obj in objList)
-        {
-            float h, s, v;
-            Color.RGBToHSV(obj.GetComponent<Image>().color, out h, out s, out v);
-            v = isActive ? v * 2 : v * 0.5f;
-            obj.GetComponent<Image>().color = Color.HSVToRGB(h, s, v);
-        }
-        //TODO
+
     }
 }

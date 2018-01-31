@@ -6,25 +6,23 @@ using System.Xml.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WriteHandler
+public static class WriteHandler
 {
-    public GameObject categoryContainer;
-    public GameObject songContainer;
 
-    public static void writeCategory(string ID, bool enabled, string name)
+    public static void writeCategories(Cate[] cateList)
     {
+        Debug.Log("writing...");
         try
         {
             XDocument doc = XDocument.Load(Application.dataPath + "/Data/category.xml");
-            List<XElement> cateList = doc.Element("root").Elements("category").ToList();
+            List<XElement> xEleList = doc.Root.Elements("category").ToList();
             for (int i = 0; i < 9; i++)
             {
-                XElement xEle = cateList[i];
-                if (xEle.Attribute("id").Value.Trim() == ID.Trim())
-                {
-                    xEle.Value = name.Trim();
-                    xEle.Attribute("enabled").Value = enabled.ToString();
-                }
+                XElement xEle = xEleList[i];
+                Cate cate = cateList[i];
+                xEle.Attribute("id").Value = cate.ID;
+                xEle.Value = cate.name.Trim();
+                xEle.Attribute("enabled").Value = cate.enabled.ToString();
             }
             doc.Save(Application.dataPath + "/Data/category.xml");
         }
@@ -34,9 +32,27 @@ public class WriteHandler
             WriteHandler.writeDefault();
         }
     }
-    public static void writeSong()
+    public static void writeSongs(string parentID, Song[] songList)
     {
-
+        try
+        {
+            XDocument doc = XDocument.Load(Application.dataPath + "/Data/"+parentID+".xml");
+            List<XElement> xEleList = doc.Root.Elements("song").ToList();
+            for (int i = 0; i < 9; i++)
+            {
+                XElement xEle = xEleList[i];
+                Song song = songList[i];
+                xEle.Value = song.name.Trim();
+                xEle.Attribute("file").Value = song.file;
+                xEle.Attribute("enabled").Value = song.enabled.ToString();
+            }
+            doc.Save(Application.dataPath + "/Data/" + parentID + ".xml");
+        }
+        catch (System.Exception e)
+        {
+            Debug.Log(e.ToString());
+            WriteHandler.writeDefault();
+        }
     }
 
     public static void writeDefault()

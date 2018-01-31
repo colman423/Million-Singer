@@ -7,12 +7,22 @@ public class CategoryManager : MonoBehaviour
 {
     public Text nameTag;
     public InputField nameInput;
+    public Toggle togActive;
     public GameObject btnRename;
     public GameObject btnRenameConfirm;
     public GameObject btnRenameCancel;
     public GameObject btnGointo;
-    public ReadHandler readHandler;
+    public ManageHandler mngHdlr;
 
+    bool toggleIsSet = false;
+    public string getID()
+    {
+        return gameObject.name;
+    }
+    public void setID(string ID)
+    {
+        gameObject.name = ID;
+    }
     public string getName()
     {
         return nameTag.text;
@@ -32,13 +42,36 @@ public class CategoryManager : MonoBehaviour
         Debug.Log("confirm name change!");
         setName(nameInput.text);
         toggleEditMode(false);
-        WriteHandler.writeCategory(getID(), getActive(), getName());
+        writeCates();
     }
     public void cancelNameChange()
     {
         toggleEditMode(false);
     }
-    void toggleEditMode(bool isEdit)
+    public bool getActive()
+    {
+        return togActive.isOn;
+    }
+    public void setToggle(bool isActive)
+    {
+        toggleIsSet = false;
+        togActive.isOn = isActive;
+        toggleIsSet = true;
+    }
+    public void setActive()
+    {
+        if( toggleIsSet )
+        {
+            Debug.Log(getID()+" toggle setting active");
+            writeCates();
+        }
+    }
+    public void goInto()
+    {
+        readSongs();
+    }
+
+    private void toggleEditMode(bool isEdit)
     {
         nameInput.gameObject.SetActive(isEdit);
         nameTag.gameObject.SetActive(!isEdit);
@@ -48,38 +81,12 @@ public class CategoryManager : MonoBehaviour
         btnRenameConfirm.SetActive(isEdit);
         btnRenameCancel.SetActive(isEdit);
     }
-    public string getID()
+    private void writeCates()
     {
-        return gameObject.name;
+        mngHdlr.writeCates();
     }
-    public void setID(string ID)
+    private void readSongs()
     {
-        gameObject.name = ID;
-    }
-    public bool getActive()
-    {
-        return gameObject.activeSelf;
-        //TODO
-    }
-    public void setActive(bool isActive)
-    {
-        List<GameObject> objList = new List<GameObject>();
-        objList.Add(gameObject);
-        objList.Add(btnRename);
-        objList.Add(btnGointo);
-        objList.Add(btnRenameConfirm);
-        objList.Add(btnRenameCancel);
-        foreach (GameObject obj in objList)
-        {
-            float h, s, v;
-            Color.RGBToHSV(obj.GetComponent<Image>().color, out h, out s, out v);
-            v = isActive ? v * 2 : v * 0.5f;
-            obj.GetComponent<Image>().color = Color.HSVToRGB(h, s, v);
-        }
-        //TODO
-    }
-    public void goInto()
-    {
-        readHandler.readSongs(this.getID());
+        mngHdlr.readSongs(this.getID(), this.getName());
     }
 }
