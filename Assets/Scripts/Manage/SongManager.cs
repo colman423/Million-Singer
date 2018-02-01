@@ -50,8 +50,17 @@ public class SongManager : MonoBehaviour {
     public void confirmNameChange()
     {
         Debug.Log("confirm name change!");
-        if( isFileNameEditing ) setFileName(nameInput.text);
-        else setName(nameInput.text);
+        if (isFileNameEditing) {
+            setFileName(nameInput.text);
+        }
+        else {
+            if (WriteHandler.changeSongName(getName(), nameInput.text)) {
+                setName(nameInput.text);
+            }
+            else {
+                Debug.Log("EXISTS!");
+            }
+        }
         toggleEditMode(false);
         writeSongs();
     }

@@ -14,7 +14,7 @@ public static class WriteHandler
         Debug.Log("writing...");
         try
         {
-            XDocument doc = XDocument.Load(Application.dataPath + "/Data/category.xml");
+            XDocument doc = XDocument.Load(PATH.CATEGORY + "category.xml");
             List<XElement> xEleList = doc.Root.Elements("category").ToList();
             for (int i = 0; i < 9; i++)
             {
@@ -24,7 +24,7 @@ public static class WriteHandler
                 xEle.Value = cate.name.Trim();
                 xEle.Attribute("enabled").Value = cate.enabled.ToString();
             }
-            doc.Save(Application.dataPath + "/Data/category.xml");
+            doc.Save(PATH.CATEGORY + "category.xml");
         }
         catch (System.Exception e)
         {
@@ -36,7 +36,7 @@ public static class WriteHandler
     {
         try
         {
-            XDocument doc = XDocument.Load(Application.dataPath + "/Data/"+parentID+".xml");
+            XDocument doc = XDocument.Load(PATH.SONG + parentID+".xml");
             List<XElement> xEleList = doc.Root.Elements("song").ToList();
             for (int i = 0; i < 9; i++)
             {
@@ -46,7 +46,7 @@ public static class WriteHandler
                 xEle.Attribute("file").Value = song.file;
                 xEle.Attribute("enabled").Value = song.enabled.ToString();
             }
-            doc.Save(Application.dataPath + "/Data/" + parentID + ".xml");
+            doc.Save(PATH.SONG + parentID + ".xml");
         }
         catch (System.Exception e)
         {
@@ -75,14 +75,22 @@ public static class WriteHandler
 
                 root.Add(xEle);
             }
-            doc.Save(Application.dataPath + "/Data/Lyrics/" + songName + ".xml");
+            doc.Save(PATH.LYRICS + songName + ".xml");
         }
         catch (System.Exception e)
         {
             Debug.Log(e.ToString());
             WriteHandler.writeDefault();
         }
-
+    }
+    public static bool changeSongName(string before, string after) {
+        if (File.Exists(PATH.LYRICS + after + ".xml")) {
+            return false;
+        }
+        else {
+            File.Move(PATH.LYRICS + before + ".xml", PATH.LYRICS + after + ".xml");
+            return true;
+        }
     }
 
     public static void writeDefault()

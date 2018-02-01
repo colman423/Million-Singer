@@ -14,7 +14,7 @@ public static class ReadHandler {
         Cate[] cateList = new Cate[9];
         try
         {
-            List<XElement> xEleList = XDocument.Load(Application.dataPath + "/Data/category.xml").Root.Elements("category").ToList();
+            List<XElement> xEleList = XDocument.Load(PATH.CATEGORY+"category.xml").Root.Elements("category").ToList();
             for( int i=0; i<9; i++ )
             {
                 XElement xEle = xEleList[i];
@@ -40,7 +40,7 @@ public static class ReadHandler {
         //songContainer.name = cateID;
         try
         {
-            List<XElement> xEleList = XDocument.Load(Application.dataPath + "/Data/"+cateID+".xml").Root.Elements("song").ToList();
+            List<XElement> xEleList = XDocument.Load(PATH.SONG+cateID+".xml").Root.Elements("song").ToList();
             for (int i = 0; i < 9; i++)
             {
                 XElement xEle = xEleList[i];
@@ -64,7 +64,7 @@ public static class ReadHandler {
         List<Lyrics> lyricsList = new List<Lyrics>();
         try
         {
-            IEnumerable<XElement> xEleList = XDocument.Load(Application.dataPath + "/Data/Lyrics/" + songName + ".xml").Root.Elements("lyrics");
+            IEnumerable<XElement> xEleList = XDocument.Load(PATH.LYRICS + songName + ".xml").Root.Elements("lyrics");
             foreach (XElement xEle in xEleList)
             {
                 string start = xEle.Attribute("start").Value.Trim();

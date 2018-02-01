@@ -48,3 +48,8 @@ public struct VOICE
     public static int MALE = 1;
     public static int FEMALE = 2;
 }
+public struct PATH {
+    public static string CATEGORY = Application.dataPath + "/Data/";
+    public static string SONG = Application.dataPath + "/Data/";
+    public static string LYRICS = Application.dataPath + "/Data/Lyrics/";
+}
