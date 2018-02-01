@@ -64,8 +64,8 @@ public static class WriteHandler
             root.RemoveAll();
             foreach (Lyrics lyrics in lyricsList)
             {
-                int start = lyrics.start;
-                int end = lyrics.end;
+                string start = lyrics.start;
+                string end = lyrics.end;
                 string sentence = lyrics.sentence;
                 int voice = lyrics.voice;
                 XElement xEle = new XElement("lyrics", sentence);
@@ -75,7 +75,7 @@ public static class WriteHandler
 
                 root.Add(xEle);
             }
-            doc.Save(Application.dataPath + "/Data/Lyrics" + songName + ".xml");
+            doc.Save(Application.dataPath + "/Data/Lyrics/" + songName + ".xml");
         }
         catch (System.Exception e)
         {

@@ -7,17 +7,32 @@ public class LyricsManager : MonoBehaviour {
     public TimePicker startPicker;
     public TimePicker endPicker;
     public InputField inputField;
-    public void set(string start, string end, string sentence) {
-        set(start, end, sentence, VOICE.NORMAL);
+
+    public void setLyrics(Lyrics lyrics) {
+        startPicker.setTime(lyrics.start);
+        endPicker.setTime(lyrics.end);
+        sentence = lyrics.sentence;
+        voice = lyrics.voice;
     }
-    public void set(string start, string end, string sentence, int voice) {
-        startPicker.setTime(start);
-        endPicker.setTime(end);
-        inputField.text = sentence;
-        setVoice(voice);
+    public Lyrics getLyrics() {
+        return new Lyrics(startPicker.getTimeString(), endPicker.getTimeString(), sentence, voice);
     }
 
-    public void setVoice(int voice) {
-        //TODO
+    public string sentence {
+        get {
+            return inputField.text;
+        }
+        set {
+            inputField.text = value;
+        }
+    }
+    public int voice {
+        get {
+            return VOICE.NORMAL;
+            //TODO
+        }
+        set {
+            //TODO
+        }
     }
 }

@@ -27,9 +27,9 @@ public struct Song
 }
 public struct Lyrics
 {
-    public int start, end, voice;
-    public string sentence;
-    public Lyrics(int start, int end, string sentence, int voice)
+    public string start, end, sentence;
+    public int voice;
+    public Lyrics(string start, string end, string sentence, int voice)
     {
         this.start = start;
         this.end = end;

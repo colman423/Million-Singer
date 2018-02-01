@@ -64,11 +64,11 @@ public static class ReadHandler {
         List<Lyrics> lyricsList = new List<Lyrics>();
         try
         {
-            IEnumerable<XElement> xEleList = XDocument.Load(Application.dataPath + "/Data/Lyrics" + songName + ".xml").Root.Elements("lyrics");
+            IEnumerable<XElement> xEleList = XDocument.Load(Application.dataPath + "/Data/Lyrics/" + songName + ".xml").Root.Elements("lyrics");
             foreach (XElement xEle in xEleList)
             {
-                int start = toTime(xEle.Attribute("start").Value.Trim());
-                int end = toTime(xEle.Attribute("end").Value.Trim());
+                string start = xEle.Attribute("start").Value.Trim();
+                string end = xEle.Attribute("end").Value.Trim();
                 string sentence = xEle.Value;
                 XAttribute xVoice = xEle.Attribute("voice");
                 int voice = (xVoice != null) ? Int16.Parse(xVoice.Value.Trim()) : VOICE.NORMAL;

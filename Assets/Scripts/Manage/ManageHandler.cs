@@ -21,16 +21,6 @@ public class ManageHandler : MonoBehaviour {
     {
         readCates();
     }
-    public void createLyricsRaw()
-    {
-        GameObject raw = Instantiate(lyricsRawPrefab);
-        raw.transform.SetParent(lyricsContainer.transform);
-
-        GameObject objMinute = raw.transform.Find("Time").Find("Start Time").Find("min").gameObject;
-        objMinute.GetComponent<Selectable>().Select();
-
-        scrollbarVertical.value = 0; //TODO
-    }
     public void readCates()
     {
         Cate[] cateList = ReadHandler.readCategories();
@@ -82,17 +72,51 @@ public class ManageHandler : MonoBehaviour {
     }
     public void readLyrics(string songName)
     {
+        foreach (Transform child in lyricsContainer.transform) {
+            GameObject.Destroy(child.gameObject);
+        }
         changeToLyricsTab();
         lyricsContainer.name = songName;
+
         List<Lyrics> lyricsList = ReadHandler.readLyrics(songName);
         foreach( Lyrics lyr in lyricsList)
         {
-            lyr.print();
+            createLyricsRaw(lyr);
         }
-        //put in container
-
-        if (lyricsList.Count == 0) createLyricsRaw();
+        if (lyricsList.Count == 0) addEmptyLyricsRaw();
     }
+    public void writeLyrics() {
+        List<Lyrics> lyricsList = new List<Lyrics>();
+        foreach(Transform gObj in lyricsContainer.transform) {
+            Lyrics lyr = gObj.GetComponent<LyricsManager>().getLyrics();
+            lyricsList.Add(lyr);
+        }
+        string songName = lyricsContainer.name;
+        WriteHandler.writeLyrics(songName, lyricsList);
+    }
+
+
+
+
+    public GameObject createLyricsRaw(Lyrics lyrics) {
+        GameObject row = Instantiate(lyricsRawPrefab);
+        row.transform.SetParent(lyricsContainer.transform);
+
+        if (!lyrics.Equals(default(Lyrics))) {
+            row.GetComponent<LyricsManager>().setLyrics(lyrics);
+        }
+        return row;
+
+    }
+    public void addEmptyLyricsRaw() {
+        GameObject row = createLyricsRaw(default(Lyrics));
+        GameObject objMinute = row.GetComponent<LyricsManager>().startPicker.iMin.gameObject;
+        objMinute.GetComponent<Selectable>().Select();
+
+        scrollbarVertical.value = 0; //TODO
+    }
+
+
 
     public void changeToCategoryTab()
     {
